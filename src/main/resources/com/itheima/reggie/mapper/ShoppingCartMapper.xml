@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.reggie.mapper.ShoppingCartMapper">
+
+    <insert id="add">
+        insert into shopping_cart(id,name,user_id,dish_id,setmeal_id,dish_flavor,number,amount,image)
+        values(#{id},#{name},#{userId},#{dishId},#{setmealId},#{dishFlavor},#{number},#{amount},#{image})
+    </insert>
+    <insert id="insertShoppingCart">
+        insert into shopping_cart (id, name, image, user_id, dish_id, setmeal_id, dish_flavor, number, amount, create_time)
+        values (#{id}, #{name}, #{image}, #{userId}, #{dishId}, #{setmealId}, #{dishFlavor}, #{number}, #{amount}, #{createTime})
+    </insert>
+    <update id="updateShoppingCart">
+        update shopping_cart
+        <set>
+            <if test="number != null">
+                number = #{number},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="clean">
+        delete from shopping_cart where user_id = #{userId}
+    </delete>
+    <delete id="removeById">
+        delete from shopping_cart where id = #{id} and user_id = #{userId}
+    </delete>
+    <select id="queryByCondition" resultType="com.itheima.reggie.entity.ShoppingCart">
+        select * from shopping_cart
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="dishId != null">
+                and dish_id = #{dishId}
+            </if>
+            <if test="setmealId != null">
+                and setmeal_id = #{setmealId}
+            </if>
+        </where>
+    </select>
+    <select id="selectByUserId" resultType="com.itheima.reggie.entity.ShoppingCart">
+        select * from shopping_cart where user_id = #{userId}
+    </select>
+
+</mapper>

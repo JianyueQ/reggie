@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.reggie.mapper.SetmealDishMapper">
+
+    <insert id="insertSetmealDish" parameterType="List">
+        insert into setmeal_dish
+        (id,setmeal_id, dish_id, name, price, copies, create_time, update_time, create_user, update_user)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (#{item.id},#{item.setmealId}, #{item.dishId}, #{item.name}, #{item.price}, #{item.copies}, #{item.createTime}, #{item.updateTime}, #{item.createUser}, #{item.updateUser})
+        </foreach>
+    </insert>
+    <update id="deleteBySetmealId">
+        update setmeal_dish set is_deleted = '1' where setmeal_id = #{setmealId}
+    </update>
+    <select id="selectList" resultType="com.itheima.reggie.entity.SetmealDish">
+        select * from setmeal_dish where setmeal_id = #{setmealId}
+    </select>
+    <select id="selectByIds" resultType="com.itheima.reggie.entity.SetmealDish">
+        select * from setmeal_dish where setmeal_id in
+        <foreach item="item" collection="list" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

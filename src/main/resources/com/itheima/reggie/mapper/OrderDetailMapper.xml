@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.reggie.mapper.OrderDetailMapper">
+
+    <select id="listByOrderIds" resultType="com.itheima.reggie.entity.OrderDetail">
+        select * from order_detail
+        <where>
+            order_id in
+            <foreach item="item" collection="list" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+
+    </select>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itheima.reggie.mapper.AddressBookMapper">
+
+    <insert id="insertAddressBook">
+        insert into address_book (id, user_id, phone, sex, province_code, province_name, city_code, city_name, district_code, district_name, consignee, detail, label, create_time, update_time, create_user, update_user, is_deleted)
+        values (#{id}, #{userId}, #{phone}, #{sex}, #{provinceCode}, #{provinceName}, #{cityCode}, #{cityName}, #{districtCode}, #{districtName}, #{consignee}, #{detail}, #{label}, #{createTime}, #{updateTime}, #{createUser}, #{updateUser}, #{isDeleted})
+    </insert>
+    <update id="setDefault">
+        update address_book set is_default = #{isDefault} where id = #{id} and user_id = #{userId}
+    </update>
+    <update id="updateBatchByUserId" parameterType="com.itheima.reggie.entity.AddressBook">
+        update address_book set is_default = #{isDefault} where user_id = #{userId}
+    </update>
+    <update id="updateByAddressBook" parameterType="AddressBook">
+        update address_book
+        <set>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="provinceCode != null">province_code = #{provinceCode},</if>
+            <if test="provinceName != null">province_name = #{provinceName},</if>
+            <if test="cityCode != null">city_code = #{cityCode},</if>
+            <if test="cityName != null">city_name = #{cityName},</if>
+            <if test="districtCode != null">district_code = #{districtCode},</if>
+            <if test="districtName != null">district_name = #{districtName},</if>
+            <if test="consignee != null">consignee = #{consignee},</if>
+            <if test="detail != null">detail = #{detail},</if>
+            <if test="label != null">label = #{label},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser}</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+        </set>
+        where id = #{id} and user_id = #{userId}
+    </update>
+
+    <select id="listByAddressBook" resultType="com.itheima.reggie.entity.AddressBook">
+        select * from address_book where user_id = #{currentId}
+    </select>
+</mapper>
