@@ -28,13 +28,13 @@
             <if test="detail != null">detail = #{detail},</if>
             <if test="label != null">label = #{label},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
-            <if test="updateUser != null">update_user = #{updateUser}</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
             <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
         </set>
         where id = #{id} and user_id = #{userId}
     </update>
 
     <select id="listByAddressBook" resultType="com.itheima.reggie.entity.AddressBook">
-        select * from address_book where user_id = #{currentId}
+        select * from address_book where user_id = #{currentId} and is_deleted = 0
     </select>
 </mapper>

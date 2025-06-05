@@ -30,5 +30,10 @@ public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, Order
 
     }
 
+    @Override
+    public List<OrderDetail> listByOrderId(Long id) {
+        return orderDetailMapper.listByOrderId(id);
+    }
+
 
 }

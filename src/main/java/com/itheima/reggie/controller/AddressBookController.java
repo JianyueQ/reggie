@@ -71,9 +71,10 @@ public class AddressBookController {
      * 删除地址簿信息
      */
     @DeleteMapping
-    public R<String> delete(Long id){
+    public R<String> delete(@RequestParam Long ids){
         //逻辑删除
-        addressBookService.reById(id);
+//        addressBookService.reById(ids);
+        addressBookService.removeById(ids);
         return R.success("删除成功");
     }
 

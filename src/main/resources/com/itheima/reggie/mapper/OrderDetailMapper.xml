@@ -13,4 +13,7 @@
         </where>
 
     </select>
+    <select id="listByOrderId" resultType="com.itheima.reggie.entity.OrderDetail">
+        select * from order_detail where order_id = #{id}
+    </select>
 </mapper>

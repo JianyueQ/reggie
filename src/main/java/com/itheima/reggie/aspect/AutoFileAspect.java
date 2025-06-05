@@ -54,7 +54,6 @@ public class AutoFileAspect {
 
         //准备赋值的数据
         LocalDateTime now = LocalDateTime.now();
-        //TODO 获取当前登录用户id
         Long currentId = BaseContext.getCurrentId();
 
         if(operationType == OperationType.INSERT){

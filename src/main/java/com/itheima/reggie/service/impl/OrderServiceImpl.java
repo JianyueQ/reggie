@@ -89,4 +89,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Orders> implement
         //清空购物车
         shoppingCartService.clean(BaseContext.getCurrentId());
     }
+
+    @Override
+    public void again(Orders orders) {
+        //查询原订单数据
+        Long userId = BaseContext.getCurrentId();
+        List<OrderDetail> orderDetailList = orderDetailService.listByOrderId(orders.getId());
+        //将查询到的订单详细数据转换成购物车对象
+        List<ShoppingCart> shoppingCartList = orderDetailList.stream().map(x -> {
+            ShoppingCart shoppingCart = new ShoppingCart();
+            // 复制属性并排除id
+            BeanUtils.copyProperties(x, shoppingCart, "id");
+            shoppingCart.setUserId(userId);
+            shoppingCart.setCreateTime(LocalDateTime.now());
+            return shoppingCart;
+        }).toList();
+        // 将购物车对象批量添加到数据库
+        shoppingCartMapper.insertBatch(shoppingCartList);
+    }
+
+
 }

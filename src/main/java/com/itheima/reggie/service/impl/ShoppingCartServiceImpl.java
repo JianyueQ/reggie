@@ -1,6 +1,7 @@
 package com.itheima.reggie.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.itheima.reggie.entity.Orders;
 import com.itheima.reggie.entity.ShoppingCart;
 import com.itheima.reggie.mapper.DishMapper;
 import com.itheima.reggie.mapper.SetmealMapper;
@@ -63,5 +64,10 @@ public class ShoppingCartServiceImpl extends ServiceImpl<ShoppingCartMapper, Sho
     @Override
     public List<ShoppingCart> listByUserId(Long currentId) {
         return shoppingCartMapper.selectByUserId(currentId);
+    }
+
+    @Override
+    public void addAgain(Orders again) {
+
     }
 }

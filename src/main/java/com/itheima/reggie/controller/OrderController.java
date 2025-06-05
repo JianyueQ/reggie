@@ -11,15 +11,18 @@ import com.itheima.reggie.entity.Orders;
 import com.itheima.reggie.entity.dto.OrdersDto;
 import com.itheima.reggie.service.OrderDetailService;
 import com.itheima.reggie.service.OrderService;
+import com.itheima.reggie.service.ShoppingCartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -31,6 +34,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private OrderDetailService orderDetailService;
+    @Autowired
+    private ShoppingCartService shoppingCartService;
 
     /**
      * 查询订单列表
@@ -127,4 +132,15 @@ public class OrderController {
 
         return R.success(ordersDtoPage);
     }
+
+    /**
+     * 在来一单
+     */
+    @PostMapping("/again")
+    public R<String> again(@RequestBody Orders orders) {
+        orderService.again(orders);
+        return R.success("再来一单成功");
+    }
+
+
 }

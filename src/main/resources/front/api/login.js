@@ -1,5 +1,4 @@
 function loginApi(data) {
-    alert(data)
     return $axios({
       'url': '/user/login',
       'method': 'post',

@@ -22,4 +22,6 @@ public interface ShoppingCartMapper extends BaseMapper<ShoppingCart> {
     void removeById(Long id, Long userId);
 
     List<ShoppingCart> selectByUserId(Long currentId);
+
+    void insertBatch(List<ShoppingCart> shoppingCartList);
 }

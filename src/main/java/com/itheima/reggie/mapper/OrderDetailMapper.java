@@ -14,4 +14,6 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
     List<OrderDetail> getByOrderId(Long orderId);
 
     List<OrderDetail> listByOrderIds(List<Long> orderIds);
+
+    List<OrderDetail> listByOrderId(Long id);
 }

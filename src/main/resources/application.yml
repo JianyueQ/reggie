@@ -1,6 +1,8 @@
 server:
   port: 8888
 spring:
+  profiles:
+    active: dev
   application:
     #应用的名称，可选
     name: reggie
@@ -15,9 +17,10 @@ spring:
       password: 123456
   #  Redis配置
   redis:
-    database: 3
-    host: localhost
-    port: 6379
+    database: ${reggie.redis.database}
+    host: ${reggie.redis.host}
+    port: ${reggie.redis.port}
+    password: ${reggie.redis.password}
 
 # MyBatis Plus配置
 mybatis-plus:
@@ -35,5 +38,17 @@ mybatis-plus:
 # 常量配置，存放图片的目录
 reggie:
   path: D:\img\
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    admin-secret-key: admin
+    # 设置jwt签名的过期时间'
+    admin-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    admin-token-name: token
+
+    user-secret-key: user
+    user-ttl: 7200000
+    user-token-name: authentication
+
 
 

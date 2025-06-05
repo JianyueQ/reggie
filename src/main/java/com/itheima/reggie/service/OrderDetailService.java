@@ -10,4 +10,6 @@ public interface OrderDetailService extends IService<OrderDetail> {
 
 
     List<OrderDetail> listByOrderIds(List<Long> orderIds);
+
+    List<OrderDetail> listByOrderId(Long id);
 }
