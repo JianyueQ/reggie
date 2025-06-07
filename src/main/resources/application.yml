@@ -1,5 +1,5 @@
 server:
-  port: 8888
+  port: ${reggie.server.port}
 spring:
   profiles:
     active: dev
@@ -9,18 +9,51 @@ spring:
   # 数据源配置
   datasource:
     druid:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: "jdbc:mysql://localhost:3306/reggie?serverTimezone=Asia/Shanghai
-      &useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
-      &useSSL=false&allowPublicKeyRetrieval=true"
-      username: root
-      password: 123456
+      driver-class-name: ${reggie.mysql.driver-class-name}
+      url: ${reggie.mysql.url}
+      username: ${reggie.mysql.username}
+      password: ${reggie.mysql.password}
   #  Redis配置
   redis:
     database: ${reggie.redis.database}
     host: ${reggie.redis.host}
     port: ${reggie.redis.port}
     password: ${reggie.redis.password}
+#  shardingsphere:
+#    datasource:
+#      names: master,slave
+#
+#      master:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        url: jdbc:mysql://192.168.127.131:3306/reggie?useSSL=false&serverTimezone=UTC
+#        username: yuxia
+#        password: 123456
+#
+#      slave:
+#        driver-class-name: com.mysql.cj.jdbc.Driver
+#        url: jdbc:mysql://192.168.127.132:3306/reggie?useSSL=false&serverTimezone=UTC
+#        username: yuxia
+#        password: 123456
+#    rules:
+#      readwrite-splitting:
+#        data-sources:
+#          read-write-datasource:
+#            static-strategy:
+#              # 写库数据源名称
+#              write-data-source-name: master
+#              # 读库数据源列表，多个从数据源用逗号分隔
+#              read-data-source-names: slave
+#            # 负载均衡算法名称
+#            load-balancer-name: round_robin
+#        # 负载均衡算法配置
+#        load-balancers:
+#          round_robin:
+#            # 负载均衡算法类型
+#            type: ROUND_ROBIN
+#    props:
+#      sql-show: true
+#  main:
+#    allow-bean-definition-overriding: true
 
 # MyBatis Plus配置
 mybatis-plus:
@@ -37,18 +70,21 @@ mybatis-plus:
   type-aliases-package: com.itheima.reggie.entity
 # 常量配置，存放图片的目录
 reggie:
-  path: D:\img\
-  jwt:
-    # 设置jwt签名加密时使用的秘钥
-    admin-secret-key: admin
-    # 设置jwt签名的过期时间'
-    admin-ttl: 7200000
-    # 设置前端传递过来的令牌名称
-    admin-token-name: token
-
-    user-secret-key: user
-    user-ttl: 7200000
-    user-token-name: authentication
-
-
+#  path: D:\img\
+#  jwt:
+#    # 设置jwt签名加密时使用的秘钥
+#    admin-secret-key: admin
+#    # 设置jwt签名的过期时间'
+#    admin-ttl: 7200000
+#    # 设置前端传递过来的令牌名称
+#    admin-token-name: token
+#
+#    user-secret-key: user
+#    user-ttl: 7200000
+#    user-token-name: authentication
+  alioss:
+    endpoint: ${reggie.alioss.endpoint}
+    access-key-id: ${reggie.alioss.access-key-id}
+    access-key-secret: ${reggie.alioss.access-key-secret}
+    bucket-name: ${reggie.alioss.bucket-name}
 

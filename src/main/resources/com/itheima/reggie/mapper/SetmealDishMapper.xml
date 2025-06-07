@@ -15,7 +15,7 @@
         update setmeal_dish set is_deleted = '1' where setmeal_id = #{setmealId}
     </update>
     <select id="selectList" resultType="com.itheima.reggie.entity.SetmealDish">
-        select * from setmeal_dish where setmeal_id = #{setmealId}
+        select * from setmeal_dish where setmeal_id = #{setmealId} and is_deleted = '0'
     </select>
     <select id="selectByIds" resultType="com.itheima.reggie.entity.SetmealDish">
         select * from setmeal_dish where setmeal_id in

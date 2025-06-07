@@ -41,12 +41,21 @@ public class SetmealController {
     /**
      * 删除缓存
      */
-    private void cleanCache(String key){
-        //先查询
-         Set keys = redisTemplate.keys(key);
-         //删除
-         redisTemplate.delete(keys);
-
+    private void cleanCache(String keyPattern){
+//        //先查询
+//         Set keys = redisTemplate.keys(key);
+//         log.info("keys:{}",keys);
+//         //删除
+//         redisTemplate.delete(keys);
+        // 获取所有匹配的key
+        Set<String> keys = redisTemplate.keys(keyPattern);
+        if (keys != null && !keys.isEmpty()) {
+            // 批量删除
+            redisTemplate.delete(keys);
+            log.info("已删除缓存: {}", keys);
+        } else {
+            log.info("没有找到匹配的缓存: {}", keyPattern);
+        }
     }
 
     /**
@@ -99,7 +108,7 @@ public class SetmealController {
 
         setmealService.updateBatchById(setmeals);
 
-        cleanCache("setmealCache:*");
+        cleanCache("setmeal_*");
 
         return R.success("修改套餐状态成功");
     }
@@ -111,7 +120,7 @@ public class SetmealController {
     public R<String> save(@RequestBody SetmealDto setmealDto){
         log.info("套餐信息：{}",setmealDto);
         setmealService.saveWithDish(setmealDto);
-        cleanCache("setmealCache:*");
+        cleanCache("setmeal_*");
         return R.success("新增套餐成功");
     }
 
@@ -133,7 +142,7 @@ public class SetmealController {
         Long empId = (Long)request.getSession().getAttribute("employee");
         setmealDto.setUpdateUser(empId);
         setmealService.updateBySetmealDto(setmealDto);
-        cleanCache("setmealCache:*");
+        cleanCache("setmeal_*");
         return  R.success("修改成功");
     }
 
@@ -155,7 +164,7 @@ public class SetmealController {
         //对应的菜品也应该逻辑删除
         setmealService.deleteBySetmealDishIds(ids);
 
-        cleanCache("setmealCache:*");
+        cleanCache("setmeal_*");
         return R.error("已删除");
     }
 
