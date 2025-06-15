@@ -1,10 +1,13 @@
 package com.itheima.reggie.config;
 
+import com.itheima.reggie.Interceptor.AdminJwtInterceptor;
 import com.itheima.reggie.common.JacksonObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -38,5 +41,30 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         messageConverter.setObjectMapper(new JacksonObjectMapper());
         //将上面的消息转换器对象追加到mvc框架的转换器集合中
         converters.add(0,messageConverter);
+    }
+
+    /**
+     * 注册自定义拦截器
+     */
+    @Autowired
+    private AdminJwtInterceptor adminJwtInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        log.info("开始进行拦截器配置...");
+        registry.addInterceptor(adminJwtInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/employee/login")
+                .excludePathPatterns("/employee/logout")
+                .excludePathPatterns("/backend/**")
+                .excludePathPatterns("/front/**")
+                .excludePathPatterns("/common/**")
+                .excludePathPatterns("/user/sendMsg")
+                .excludePathPatterns("/user/login")
+                .excludePathPatterns("/doc.html")
+                .excludePathPatterns("/webjars/**")
+                .excludePathPatterns("/swagger-resources")
+                .excludePathPatterns("/v2/api-docs");
+
     }
 }

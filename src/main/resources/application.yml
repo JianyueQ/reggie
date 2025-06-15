@@ -2,17 +2,17 @@ server:
   port: ${reggie.server.port}
 spring:
   profiles:
-    active: dev
+    active: test
   application:
     #应用的名称，可选
     name: reggie
   # 数据源配置
   datasource:
     druid:
-      driver-class-name: ${reggie.mysql.driver-class-name}
-      url: ${reggie.mysql.url}
-      username: ${reggie.mysql.username}
-      password: ${reggie.mysql.password}
+      driver-class-name: ${reggie.mysql.datasource.driver-class-name}
+      url: jdbc:mysql://${reggie.mysql.datasource.host}:${reggie.mysql.datasource.port}/${reggie.mysql.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${reggie.mysql.datasource.username}
+      password: ${reggie.mysql.datasource.password}
   #  Redis配置
   redis:
     database: ${reggie.redis.database}
@@ -71,13 +71,13 @@ mybatis-plus:
 # 常量配置，存放图片的目录
 reggie:
 #  path: D:\img\
-#  jwt:
-#    # 设置jwt签名加密时使用的秘钥
-#    admin-secret-key: admin
-#    # 设置jwt签名的过期时间'
-#    admin-ttl: 7200000
-#    # 设置前端传递过来的令牌名称
-#    admin-token-name: token
+  jwt:
+    # 设置jwt签名加密时使用的秘钥
+    admin-secret-key: admin
+    # 设置jwt签名的过期时间'
+    admin-ttl: 7200000
+    # 设置前端传递过来的令牌名称
+    admin-token-name: token
 #
 #    user-secret-key: user
 #    user-ttl: 7200000

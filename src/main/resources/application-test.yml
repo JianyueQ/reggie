@@ -1,0 +1,21 @@
+reggie:
+  redis:
+    database: 0
+    host: 172.18.0.3
+    port: 6379
+    password: 123456
+  server:
+    port: 8888
+  mysql:
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      host: 172.18.0.2
+      port: 3306
+      database: reggie
+      username: root
+      password: 123456
+  alioss:
+    endpoint: oss-cn-shenzhen.aliyuncs.com
+    access-key-id: ${ALIBABA_CLOUD_ACCESS_KEY_ID}
+    access-key-secret: ${ALIBABA_CLOUD_ACCESS_KEY_SECRET}
+    bucket-name: sky-take-out-0011

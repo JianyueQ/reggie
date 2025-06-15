@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.itheima.reggie.common.R;
 import com.itheima.reggie.constext.BaseContext;
 import com.itheima.reggie.entity.User;
+import com.itheima.reggie.properties.JwtProperties;
 import com.itheima.reggie.service.UserService;
+import com.itheima.reggie.utils.JwtUtils;
 import com.itheima.reggie.utils.ValidateCodeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +27,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private JwtProperties jwtProperties;
 
     @PostMapping("/sendMsg")
     public R<Map<String, String>> sendMsg(@RequestBody User user, HttpSession session) {
@@ -79,7 +83,13 @@ public class UserController {
                 user.setName(String.valueOf(Math.random()).substring(2, 6));
                 userService.save(user);
             }
+
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("id", user.getId());
+            claims.put("phone", phone);
+            String token = JwtUtils.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
             session.setAttribute("user", user.getId());
+            session.setAttribute("token", token);
             return R.success(user);
         }
         return R.error("登录失败");

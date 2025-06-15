@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: reggie
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - reggie-network
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    environment:
+      - REDIS_PORT=6379
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - reggie-network
+
+  reggie-app:
+    build: .
+    container_name: reggie-app
+    ports:
+      - "8888:8888"
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/reggie?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123456
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+      ALIBABA_CLOUD_ACCESS_KEY_ID: ${ALIBABA_CLOUD_ACCESS_KEY_ID}
+      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${ALIBABA_CLOUD_ACCESS_KEY_SECRET}
+    networks:
+      - reggie-network
+
+volumes:
+  mysql_data:
+  redis_data:
+
+networks:
+  reggie-network:
+    driver: bridge

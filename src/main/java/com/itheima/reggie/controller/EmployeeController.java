@@ -5,11 +5,14 @@ import com.itheima.reggie.common.R;
 import com.itheima.reggie.entity.Employee;
 import com.itheima.reggie.properties.JwtProperties;
 import com.itheima.reggie.service.EmployeeService;
+import com.itheima.reggie.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -39,7 +42,16 @@ public class EmployeeController {
             return R.error("账号已禁用");
         }
         //5.登录成功，将员工Id存入Session并返回员工信息
+        Map<String,Object> claims = new HashMap<>();
+        claims.put("id",emp.getId());
+        claims.put("username",emp.getUsername());
+
+
+        //生成token
+        String token = JwtUtils.createJWT(jwtProperties.getAdminSecretKey(),  jwtProperties.getAdminTtl(), claims);
+        log.info("token = {}",token);
         request.getSession().setAttribute("employee",emp.getId());
+        request.getSession().setAttribute("token",token);
 
         return R.success(emp);
     }

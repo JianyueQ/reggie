@@ -151,3 +151,10 @@
   height: 33rem;
   margin-top: 20rem;
 }
+
+.dishList .item .dish-img {
+  width: 40px; /* 图片宽度 */
+  height: 40px; /* 图片高度 */
+  margin-right: 10px; /* 图片与文字之间的间距 */
+  vertical-align: middle; /* 垂直居中对齐 */
+}

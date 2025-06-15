@@ -39,6 +39,7 @@
                         </div>
                         <div class="dishList">
                             <div v-for="(item,index) in order.orderDetails" :key="index" class="item">
+                                <img :src="item.image" alt="菜品图片" class="dish-img">
                                 <span>{{item.name}}</span>
                                 <span>x{{item.number}}</span>
                             </div>
@@ -165,5 +166,6 @@
             }
         })
         </script>
+        
     </body>
 </html>
