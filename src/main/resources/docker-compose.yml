@@ -7,24 +7,24 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: reggie
-    ports:
-      - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - /root/mysql/data:/var/lib/mysql
+      - /root/mysql/conf:/etc/mysql/conf.d
+      - /root/mysql/init:/docker-entrypoint-initdb.d
     networks:
       - reggie-network
 
   redis:
-    image: redis:alpine
+    image: redis:6.2-alpine
     container_name: redis
     environment:
       - REDIS_PORT=6379
-    ports:
-      - "6379:6379"
     volumes:
-      - redis_data:/data
+      - /root/redis/data:/data
+      - /root/redis/conf:/usr/local/etc/redis
     networks:
       - reggie-network
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
 
   reggie-app:
     build: .
@@ -40,14 +40,25 @@ services:
       SPRING_DATASOURCE_PASSWORD: 123456
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PASSWORD: 123456
       ALIBABA_CLOUD_ACCESS_KEY_ID: ${ALIBABA_CLOUD_ACCESS_KEY_ID}
       ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${ALIBABA_CLOUD_ACCESS_KEY_SECRET}
     networks:
       - reggie-network
 
-volumes:
-  mysql_data:
-  redis_data:
+  nginx:
+    image: nginx:1.20.1
+    container_name: nginx
+    volumes:
+      - /root/nginx/conf:/etc/nginx/conf.d
+      - /root/nginx/html:/usr/share/nginx/html
+    ports:
+      - "18080:18080"
+    command: ["nginx", "-g", "daemon off;"]
+    depends_on:
+      - reggie-app
+    networks:
+      - reggie-network
 
 networks:
   reggie-network:

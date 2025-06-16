@@ -1,7 +1,7 @@
 reggie:
   redis:
     database: 0
-    host: 172.18.0.3
+    host: redis
     port: 6379
     password: 123456
   server:
@@ -9,7 +9,7 @@ reggie:
   mysql:
     datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      host: 172.18.0.2
+      host: mysql
       port: 3306
       database: reggie
       username: root
