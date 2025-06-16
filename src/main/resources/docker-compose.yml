@@ -11,6 +11,8 @@ services:
       - /root/mysql/data:/var/lib/mysql
       - /root/mysql/conf:/etc/mysql/conf.d
       - /root/mysql/init:/docker-entrypoint-initdb.d
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone/timezone:/etc/timezone:ro
     networks:
       - reggie-network
 
@@ -22,6 +24,8 @@ services:
     volumes:
       - /root/redis/data:/data
       - /root/redis/conf:/usr/local/etc/redis
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone/timezone:/etc/timezone:ro
     networks:
       - reggie-network
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
@@ -41,8 +45,9 @@ services:
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
       SPRING_REDIS_PASSWORD: 123456
-      ALIBABA_CLOUD_ACCESS_KEY_ID: ${ALIBABA_CLOUD_ACCESS_KEY_ID}
-      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${ALIBABA_CLOUD_ACCESS_KEY_SECRET}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone/timezone:/etc/timezone:ro
     networks:
       - reggie-network
 
@@ -50,8 +55,10 @@ services:
     image: nginx:1.20.1
     container_name: nginx
     volumes:
-      - /root/nginx/conf:/etc/nginx/conf.d
+      - /root/nginx/nginx.conf:/etc/nginx/nginx.conf
       - /root/nginx/html:/usr/share/nginx/html
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone/timezone:/etc/timezone:ro
     ports:
       - "18080:18080"
     command: ["nginx", "-g", "daemon off;"]
